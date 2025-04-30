@@ -1,7 +1,10 @@
 package aoc2017
 
-import "fmt"
-import "github.com/greeneca/advent-of-code-go/vector"
+import (
+	"fmt"
+
+	"github.com/greeneca/advent-of-code-go/vector"
+)
 
 const input = 277678
 
