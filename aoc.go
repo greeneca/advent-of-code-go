@@ -15,7 +15,7 @@ import (
 func main() {
 	args := os.Args[1:]
 	if len(args) < 2 {
-		fmt.Println("Usage: go run app.go <year> <problem> (input file)")
+		fmt.Println("Usage: go run aoc.go <year> <problem> (input file)")
 		return
 	}
 	year, _ := strconv.Atoi(args[0])
@@ -31,6 +31,7 @@ func main() {
 	switch year {
 	case 2017:
 		err = aoc2017.RunProblem(day, part, data)
+	// Add more years here as needed
 	default:
 		fmt.Println("Year not yet implemented")
 	}
