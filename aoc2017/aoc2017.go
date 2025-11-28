@@ -25,6 +25,8 @@ func RunProblem(day int, part int, data []string) error {
 		"day8Part2": day8Part2,
 		"day9Part1": day9Part1,
 		"day9Part2": day9Part2,
+		"day10Part1": day10Part1,
+		"day10Part2": day10Part2,
 		// Add other problems here
 	}
 	functionName := fmt.Sprintf("day%dPart%d", day, part)
