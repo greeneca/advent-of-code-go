@@ -9,7 +9,7 @@ func dayXPart1(data []string) {
 	fmt.Println("Day X Part 1 not yet implemented")
 }
 
-func dayXPart2(rata []string) {
+func dayXPart2(data []string) {
 	// Implementation for Day X Part 2
 	fmt.Println("Day X Part 2 not yet implemented")
 }

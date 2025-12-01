@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/greeneca/advent-of-code-go/aoc2017"
+	"github.com/greeneca/advent-of-code-go/aoc2025"
 )
 
 func main() {
@@ -31,6 +32,8 @@ func main() {
 	switch year {
 	case 2017:
 		err = aoc2017.RunProblem(day, part, data)
+	case 2025:
+		err = aoc2025.RunProblem(day, part, data)
 	// Add more years here as needed
 	default:
 		fmt.Println("Year not yet implemented")
