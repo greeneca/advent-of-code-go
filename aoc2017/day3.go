@@ -1,14 +1,14 @@
 package aoc2017
 
 import (
-	"fmt"
+	"strconv"
 
 	"github.com/greeneca/advent-of-code-go/vector"
 )
 
 const input = 277678
 
-func day3Part1(data []string) {
+func day3Part1(data []string) string {
 	level := 1
 	for {
 		maxValue := level * level
@@ -24,13 +24,12 @@ func day3Part1(data []string) {
 				shellDistance = shellDistance *-1
 			}
 			distance := jump+shellDistance
-			fmt.Println("Distance:", distance)
-			return
+			return strconv.Itoa(distance)
 		}
 		level += 2
 	}
 }
-func day3Part2(data []string) {
+func day3Part2(data []string) string {
 	grid := map[vector.Vector]int{}
 	position := vector.New(0, 0)
 	direction := 0
@@ -45,12 +44,9 @@ func day3Part2(data []string) {
 		}
 		grid[position] = sum
 		if sum > input {
-			fmt.Println("First value larger than input:", sum)
-			return
+			return strconv.Itoa(sum)
 		}
 	}
-
-
 }
 
 func spiralGridMove(position vector.Vector, grid *map[vector.Vector]int, direction int) (vector.Vector, int){

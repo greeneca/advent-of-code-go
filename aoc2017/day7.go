@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func day7Part1(data []string) {
+func day7Part1(data []string) string {
 	programs := []string{}
 	holding := []string{}
 	for _, line := range data {
@@ -21,10 +21,10 @@ func day7Part1(data []string) {
 	}
 	for _, program := range programs {
 		if !slices.Contains(holding, program) {
-			println("Root program:", program)
-			return
+			return program
 		}
 	}
+	return ""
 }
 
 type Node struct {
@@ -33,7 +33,7 @@ type Node struct {
 	ChildrenWeight int
 }
 
-func day7Part2(data []string) {
+func day7Part2(data []string) string {
 	tree := map[string]Node{}
 	tower := []string{}
 	for _, line := range data {
@@ -74,8 +74,7 @@ func day7Part2(data []string) {
 				}
 				if (len(childWeights) == 1 && weightDiff != 0) {
 					correctedWeight := tree[program].Weight + weightDiff
-					println("Corrected weight for program", program, "is", correctedWeight)
-					return
+					return strconv.Itoa(correctedWeight)
 				} else {
 					var correctWeight, incorrectWeight int
 					for weight, children := range childWeights {
@@ -91,6 +90,7 @@ func day7Part2(data []string) {
 			}
 		}
 	}
+	return ""
 }
 
 func calculatedWeight(program string, tree map[string]Node) int {

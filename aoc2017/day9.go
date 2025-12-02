@@ -1,11 +1,11 @@
 package aoc2017
 
 import (
-	"fmt"
+	"strconv"
 	"strings"
 )
 
-func day9Part1(data []string) {
+func day9Part1(data []string) string {
 	input := strings.Split(data[0], "")
 	level := 0
 	garbage := false
@@ -36,10 +36,10 @@ func day9Part1(data []string) {
 			continue
 		}
 	}
-	fmt.Println("Total score:", score)
+	return strconv.Itoa(score)
 }
 
-func day9Part2(data []string) {
+func day9Part2(data []string) string {
 	input := strings.Split(data[0], "")
 	garbage := false
 	charCount := 0
@@ -62,5 +62,5 @@ func day9Part2(data []string) {
 			continue
 		}
 	}
-	fmt.Println("Total char count:", charCount)
+	return strconv.Itoa(charCount)
 }

@@ -2,7 +2,7 @@ package aoc2017
 
 import "strconv"
 
-func day5Part1(data []string){
+func day5Part1(data []string) string {
 	maze := []int{}
 	for _, line := range data {
 		if len(line) > 0 {
@@ -18,10 +18,10 @@ func day5Part1(data []string){
 		pos += jump
 		steps++
 	}
-	println("Steps to exit:", steps)
+	return strconv.Itoa(steps)
 }
 
-func day5Part2(data []string){
+func day5Part2(data []string) string {
 	maze := []int{}
 	for _, line := range data {
 		if len(line) > 0 {
@@ -41,5 +41,5 @@ func day5Part2(data []string){
 		pos += jump
 		steps++
 	}
-	println("Steps to exit:", steps)
+	return strconv.Itoa(steps)
 }

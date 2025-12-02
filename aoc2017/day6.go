@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func day6Part1(data []string) {
+func day6Part1(data []string) string {
 	steps := 0
 	cache := map[string]bool{}
 	memmory := []int{}
@@ -28,10 +28,10 @@ func day6Part1(data []string) {
 		}
 		cache[cacheKey] = true
 	}
-	println("Steps to loop:", steps)
+	return strconv.Itoa(steps)
 }
 
-func day6Part2(data []string) {
+func day6Part2(data []string) string {
 	steps := 0
 	cache := map[string]int{}
 	memmory := []int{}
@@ -54,7 +54,7 @@ func day6Part2(data []string) {
 		}
 		cache[cacheKey] = steps
 	}
-	println("Size of loop:", steps)
+	return strconv.Itoa(steps)
 }
 
 func getMaxMemmoryIndex(memmory []int) int {

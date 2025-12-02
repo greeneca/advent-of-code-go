@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func day8Part1(data []string) {
+func day8Part1(data []string) string {
 	registers := make(map[string]int)
 	for _, line := range data {
 		if line == "" {
@@ -30,7 +30,7 @@ func day8Part1(data []string) {
 		}
 	}
 	maxValue := slices.Max(slices.Collect(maps.Values(registers)))
-	println("Max register value after completion:", maxValue)
+	return strconv.Itoa(maxValue)
 }
 
 func testCondition(op string, a int, b int) bool {
@@ -52,7 +52,7 @@ func testCondition(op string, a int, b int) bool {
 	return conditionMet
 }
 
-func day8Part2(data []string) {
+func day8Part2(data []string) string {
 	registers := make(map[string]int)
 	maxValue := 0
 	for _, line := range data {
@@ -78,5 +78,5 @@ func day8Part2(data []string) {
 			}
 		}
 	}
-	println("Max register value during run:", maxValue)
+	return strconv.Itoa(maxValue)
 }

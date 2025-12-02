@@ -2,17 +2,18 @@ package aoc2017
 
 import (
 	"slices"
+	"strconv"
 	"strings"
 )
 
-func day4Part1(data []string){
+func day4Part1(data []string) string {
 	valid := 0
 	for _, line := range data {
 		if len(line) > 0 && isValidPassphrase(line) {
 			valid++
 		}
 	}
-	println("Valid passphrases:", valid)
+	return strconv.Itoa(valid)
 }
 
 func isValidPassphrase(line string) bool {
@@ -27,14 +28,14 @@ func isValidPassphrase(line string) bool {
 	return true
 }
 
-func day4Part2(data []string){
+func day4Part2(data []string) string {
 	valid := 0
 	for _, line := range data {
 		if len(line) > 0 && isValidPassphraseAnagram(line) {
 			valid++
 		}
 	}
-	println("Valid passphrases:", valid)
+	return strconv.Itoa(valid)
 }
 
 func isValidPassphraseAnagram(line string) bool {

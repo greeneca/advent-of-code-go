@@ -1,12 +1,11 @@
 package aoc2025
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
 
-func day2Part1(data []string) {
+func day2Part1(data []string) string {
 	sum := 0
 	ranges := strings.SplitSeq(data[0], ",")
 	for r := range ranges {
@@ -21,10 +20,10 @@ func day2Part1(data []string) {
 			}
 		}
 	}
-	fmt.Println("Sum is:", sum)
+	return strconv.Itoa(sum)
 }
 
-func day2Part2(data []string) {
+func day2Part2(data []string) string {
 	sum := 0
 	ranges := strings.SplitSeq(data[0], ",")
 	for r := range ranges {
@@ -55,5 +54,5 @@ func day2Part2(data []string) {
 			}
 		}
 	}
-	fmt.Println("Sum is:", sum)
+	return strconv.Itoa(sum)
 }

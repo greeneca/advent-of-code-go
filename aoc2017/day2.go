@@ -1,12 +1,11 @@
 package aoc2017
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
 
-func day2Part1(data []string) {
+func day2Part1(data []string) string {
 	sum := 0
 	for i := range len(data) {
 		line := string(data[i])
@@ -24,10 +23,10 @@ func day2Part1(data []string) {
 		}
 		sum += max - min
 	}
-	fmt.Println("Checksum:", sum)
+	return strconv.Itoa(sum)
 }
 
-func day2Part2(data []string) {
+func day2Part2(data []string) string {
 	sum := 0
 	for i := range len(data) {
 		line := string(data[i])
@@ -52,5 +51,5 @@ func day2Part2(data []string) {
 			}
 		}
 	}
-	fmt.Println("Checksum:", sum)
+	return strconv.Itoa(sum)
 }

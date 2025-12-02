@@ -1,11 +1,10 @@
 package aoc2017
 
 import (
-	"fmt"
 	"strconv"
 )
 
-func day1Part1(data []string) {
+func day1Part1(data []string) string {
 	input := data[0]
 	prev := string(input[len(input)-1])
 	sum := 0
@@ -17,10 +16,10 @@ func day1Part1(data []string) {
 		}
 		prev = current
 	}
-	fmt.Println("Sum of matching digits:", sum)
+	return strconv.Itoa(sum)
 }
 
-func day1Part2(data []string) {
+func day1Part2(data []string) string {
 	input := data[0]
 	length := len(input)
 	halfway := length / 2
@@ -34,5 +33,5 @@ func day1Part2(data []string) {
 			sum += value
 		}
 	}
-	fmt.Println("Sum of matching digits:", sum)
+	return strconv.Itoa(sum)
 }

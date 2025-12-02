@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func day10Part1(data []string) {
+func day10Part1(data []string) string {
 	pos := 0
 	skip := 0
 	loop := make([]int, 256)
@@ -22,7 +22,7 @@ func day10Part1(data []string) {
 		pos, skip = hashRound(length, pos, skip, &loop)
 	}
 	result := loop[0] * loop[1]
-	fmt.Println("Result:", result)
+	return strconv.Itoa(result)
 }
 
 func hashRound(length int, pos int, skip int, loop *[]int) (int, int) {
@@ -36,7 +36,7 @@ func hashRound(length int, pos int, skip int, loop *[]int) (int, int) {
 	return pos, skip
 }
 
-func day10Part2(data []string) {
+func day10Part2(data []string) string {
 	pos := 0
 	skip := 0
 	loop := make([]int, 256)
@@ -67,5 +67,5 @@ func day10Part2(data []string) {
 	for _, num := range denseHash {
 		hashString += fmt.Sprintf("%02x", num)
 	}
-	fmt.Println("Knot Hash:", hashString)
+	return hashString
 }

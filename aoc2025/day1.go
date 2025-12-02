@@ -1,11 +1,10 @@
 package aoc2025
 
 import (
-	"fmt"
 	"strconv"
 )
 
-func day1Part1(data []string) {
+func day1Part1(data []string) string {
 	dial := 50
 	count := 0
 	for _, line := range data {
@@ -14,8 +13,7 @@ func day1Part1(data []string) {
 		}
 		change, err := strconv.Atoi(line[1:])
 		if err != nil {
-			fmt.Println("Error parsing number:", err)
-			continue
+			panic(err)
 		}
 		if line[0] == 'L' {
 			dial -= change
@@ -27,10 +25,10 @@ func day1Part1(data []string) {
 			count++
 		}
 	}
-	fmt.Println("Password is:", count)
+	return strconv.Itoa(count)
 }
 
-func day1Part2(data []string) {
+func day1Part2(data []string) string {
 	dial := 50
 	count := 0
 	for _, line := range data {
@@ -40,8 +38,7 @@ func day1Part2(data []string) {
 		count += spins
 		next := dial
 		if err != nil {
-			fmt.Println("Error parsing number:", err)
-			continue
+			panic(err)
 		}
 		if line[0] == 'L' {
 			next -= change % 100
@@ -63,5 +60,5 @@ func day1Part2(data []string) {
 			dial = next
 		}
 	}
-	fmt.Println("Password is:", count)
+	return strconv.Itoa(count)
 }
