@@ -13,12 +13,10 @@ func day2Part1(data []string) {
 		bounds := strings.Split(r, "-")
 		start, _ := strconv.Atoi(bounds[0])
 		end, _ := strconv.Atoi(bounds[1])
-		println("Processing range:", start, "to", end)
 		for i := start; i <= end; i++ {
 			strNum := strconv.Itoa(i)
 			length := len(strNum)
 			if strNum[0:(length)/2] == strNum[(length)/2:] {
-				println("Found invalid id:", strNum)
 				sum += i
 			}
 		}
