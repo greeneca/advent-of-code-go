@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -77,16 +78,22 @@ func getInputFilePath(args []string) (string, error) {
 	return path, nil
 }
 
-func (api *AOCAPI) SubmitAnswer(year, day, part int, answer string) error {
+func (api *AOCAPI) SubmitAnswer(year, day, part int, answer string) (string, error) {
 	url := fmt.Sprintf("https://adventofcode.com/%d/day/%d/answer", year, day)
 	data := fmt.Sprintf("level=%d&answer=%s", part, answer)
 	req, err := http.NewRequest("POST", url, strings.NewReader(data))
 	if err != nil {
-		return err
+		return "", err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	_, err = doRequestWithSession(api.sessionToken, req)
-	return err
+	res, err := doRequestWithSession(api.sessionToken, req)
+	if err != nil {
+		return "", err
+	}
+	body := string(res)
+	message := regexp.MustCompile(`<article><p>(.*?)</p>`).FindStringSubmatch(body)[0]
+	message = regexp.MustCompile(`<[^>]+>`).ReplaceAllString(message, "")
+	return message, nil
 }
 func doRequestWithSession(token string, req *http.Request) ([]byte, error) {
 	req.AddCookie(&http.Cookie{Name: "session", Value: token})

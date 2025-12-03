@@ -56,6 +56,14 @@ func main() {
 	fmt.Printf("Result: %v\n", result)
 	duration := time.Since(start)
 	fmt.Printf("Execution time: %s\n", duration)
+	if len(args) == 2 {
+		res, err := api.SubmitAnswer(year, day, part, result)
+		if err != nil {
+			fmt.Printf("Error submitting answer: %v\n", err)
+			return
+		}
+		fmt.Println(res)
+	}
 }
 func getProblemValues(args []string) (int, int, int, error) {
 	if len(args) < 2 {
