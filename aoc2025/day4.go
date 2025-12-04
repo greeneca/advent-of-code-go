@@ -17,17 +17,11 @@ func day4Part1(data []string) string {
 	}
 	count := 0
 	for vec := range paper {
-		neighbors := 0
-		for _, dir := range vector.GetAllDirections() {
-			neighbor := vec.Add(dir)
-			if _, exists := paper[neighbor]; exists {
-				neighbors++
-				if neighbors >= 4 {
-					break
-				}
-			}
-		}
-		if neighbors < 4 {
+		neighbours := vec.GetMatchingNeighbours(func(v vector.Vector) bool {
+			_, exists := paper[v]
+			return exists
+		})
+		if len(neighbours) < 4 {
 			count++
 		}
 	}
@@ -45,17 +39,11 @@ func day4Part2(data []string) string {
 	}
 	to_remove := make([]vector.Vector, 0)
 	for vec := range paper {
-		neighbors := 0
-		for _, dir := range vector.GetAllDirections() {
-			neighbor := vec.Add(dir)
-			if _, exists := paper[neighbor]; exists {
-				neighbors++
-				if neighbors >= 4 {
-					break
-				}
-			}
-		}
-		if neighbors < 4 {
+		neighbours := vec.GetMatchingNeighbours(func(v vector.Vector) bool {
+			_, exists := paper[v]
+			return exists
+		})
+		if len(neighbours) < 4 {
 			to_remove = append(to_remove, vec)
 		}
 	}
@@ -67,24 +55,17 @@ func day4Part2(data []string) string {
 			delete(paper, vec)
 			count++
 		}
-		for _, dir := range vector.GetAllDirections() {
-			neighbor := vec.Add(dir)
-			if _, exists := paper[neighbor]; exists {
-				neighbors := 0
-				for _, dir2 := range vector.GetAllDirections() {
-					neighbor2 := neighbor.Add(dir2)
-					if _, exists2 := paper[neighbor2]; exists2 {
-						neighbors++
-						if neighbors >= 4 {
-							break
-						}
-					}
-				}
-				if neighbors < 4 {
-					to_remove = append(to_remove, neighbor)
+		vec.ForEachNeighbour(func(v vector.Vector) {
+			if _, exists := paper[v]; exists {
+				neighbors := v.GetMatchingNeighbours(func(v2 vector.Vector) bool {
+					_, exists2 := paper[v2]
+					return exists2
+				})
+				if len(neighbors) < 4 {
+					to_remove = append(to_remove, v)
 				}
 			}
-		}
+		})
 	}
 	return strconv.Itoa(count)
 }

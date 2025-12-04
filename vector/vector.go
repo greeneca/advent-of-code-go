@@ -11,11 +11,29 @@ func New(x, y int) Vector {
 }
 
 func (v Vector) Add(other Vector) Vector {
-	return Vector{X: v.X - other.X, Y: v.Y - other.Y}
+	return Vector{X: v.X + other.X, Y: v.Y + other.Y}
 }
 
 func (v Vector) IsAt(x, y int) bool {
 	return v.X == x && v.Y == y
+}
+
+func (v Vector) ForEachNeighbour(function func(Vector)) {
+	for _, dir := range GetAllDirections() {
+		neighbour := v.Add(dir)
+		function(neighbour)
+	}
+}
+
+func (v Vector) GetMatchingNeighbours(function func(Vector) bool) []Vector {
+	matching := []Vector{}
+	for _, dir := range GetAllDirections() {
+		neighbour := v.Add(dir)
+		if function(neighbour) {
+			matching = append(matching, neighbour)
+		}
+	}
+	return matching
 }
 
 func (v Vector) Print() {
