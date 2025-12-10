@@ -14,6 +14,10 @@ func (v Vector) Add(other Vector) Vector {
 	return Vector{X: v.X + other.X, Y: v.Y + other.Y}
 }
 
+func (v Vector) Subtract(other Vector) Vector {
+	return Vector{X: v.X - other.X, Y: v.Y - other.Y}
+}
+
 func (v Vector) IsAt(x, y int) bool {
 	return v.X == x && v.Y == y
 }
@@ -64,4 +68,16 @@ func GetAllDirections() []Vector {
 		{X: 0, Y: -1},
 		{X: 1, Y: -1},
 	}
+}
+
+func GetMinVector(a Vector, b Vector) Vector {
+	x := min(b.X, a.X)
+	y := min(b.Y, a.Y)
+	return Vector{X: x, Y: y}
+}
+
+func GetMaxVector(a Vector, b Vector) Vector {
+	x := max(b.X, a.X)
+	y := max(b.Y, a.Y)
+	return Vector{X: x, Y: y}
 }
