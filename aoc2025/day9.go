@@ -64,7 +64,6 @@ func day9Part2(data []string) string {
 		return sizeA > sizeB
 	})
 	largest := pairs[0]
-	//print(corners, largest)
 	return fmt.Sprintf("%d", sizeCache[[2]int{largest[0], largest[1]}])
 }
 
@@ -79,9 +78,14 @@ func getRectSizeInside(a vector.Vector, b vector.Vector, corners []vector.Vector
 	rect = append(rect, vector.New(x[1], y[0]))
 	rect = append(rect, vector.New(x[1], y[1]))
 	rect = append(rect, vector.New(x[0], y[1]))
-	for i, pointA := range rect {
-		pointB := rect[(i+1)%len(rect)]
-		if crossesShape(corners, pointA, pointB) {
+	for _, point := range rect {
+		if !isValidPoint(corners, point) {
+			return 0
+		}
+	}
+	for i, a := range rect {
+		b := rect[(i+1)%len(rect)]
+		if sampleEdge(a, b, corners) == false {
 			return 0
 		}
 	}
@@ -89,66 +93,75 @@ func getRectSizeInside(a vector.Vector, b vector.Vector, corners []vector.Vector
 	return size
 }
 
-func crossesShape(corners []vector.Vector, pointA vector.Vector, pointB vector.Vector) bool {
-	for i, pointC := range corners {
-		pointD := corners[(i+1)%len(corners)]
-		if linesCross(pointA, pointB, pointC, pointD) {
+func sampleEdge(a, b vector.Vector, corners []vector.Vector) bool {
+	samples := 75
+	sampleSize := 0
+	if vertical(a, b) {
+		diff := a.Y - b.Y
+		sampleSize = max(diff, (diff*-1))/samples
+	} else if horizontal(a, b) {
+		diff := a.X - b.X
+		sampleSize = max(diff, (diff*-1))/samples
+	}
+	for i := 0; i <= samples; i++ {
+		var point vector.Vector
+		if vertical(a, b) {
+			newY := min(a.Y, b.Y) + i*sampleSize
+			point = vector.New(a.X, newY)
+		} else if horizontal(a, b) {
+			newX := min(a.X, b.X) + i*sampleSize
+			point = vector.New(newX, a.Y)
+		}
+		if !isValidPoint(corners, point) {
+			return false
+		}
+	}
+	return true
+}
+
+func isValidPoint(corners []vector.Vector, point vector.Vector) bool {
+	return isOnBoundry(corners, point) || isInside(corners, point)
+}
+
+func isOnBoundry(corners []vector.Vector, point vector.Vector) bool {
+	for i, corner := range corners {
+		nextCorner := corners[(i+1)%len(corners)]
+		if isPointOnLine(corner, nextCorner, point) {
 			return true
 		}
 	}
 	return false
 }
 
-func linesCross(a1, a2, b1, b2 vector.Vector) bool {
-	ax := []int{a1.X, a2.X}
-	sort.Ints(ax)
-	ay := []int{a1.Y, a2.Y}
-	sort.Ints(ay)
-	bx := []int{b1.X, b2.X}
-	sort.Ints(bx)
-	by := []int{b1.Y, b2.Y}
-	sort.Ints(by)
-	if ax[0] == ax[1] {
-		if bx[1] >= ax[1] && bx[0] <= ax[1] {
-			if ay[1] >= by[0] && ay[0] <= by[1] {
-				return true
-			}
-		}
-	} else if ay[0] == ay[1] {
-		if by[1] >= ay[1] && by[0] <= ay[1] {
-			if ax[1] >= bx[0] && ax[0] <= bx[1] {
-				return true
-			}
-		}
+func isPointOnLine(a, b, p vector.Vector) bool {
+	if (((a.Y > p.Y) != (b.Y > p.Y)) && p.X == a.X) || (((a.X > p.X) != (b.X > p.X)) && p.Y == a.Y) {
+		return true
 	}
 	return false
 }
 
-
-func print(corners []vector.Vector, largestPair []int) {
-	minX, minY := corners[0].X, corners[0].Y
-	maxX, maxY := corners[0].X, corners[0].Y
-	cornersMap := map[vector.Vector]bool{}
-	for _, corner := range corners {
-		if corner.X < minX { minX = corner.X }
-		if corner.X > maxX { maxX = corner.X }
-		if corner.Y < minY { minY = corner.Y }
-		if corner.Y > maxY { maxY = corner.Y }
-		cornersMap[corner] = true
-	}
-	for y := 0; y <= maxY; y++ {
-		for x := 0; x <= maxX; x++ {
-			p := vector.New(x, y)
-			if x == corners[largestPair[0]].X && y == corners[largestPair[0]].Y {
-				fmt.Print("A")
-			} else if x == corners[largestPair[1]].X && y == corners[largestPair[1]].Y {
-				fmt.Print("A")
-			} else if cornersMap[p] {
-				fmt.Print("O")
-			} else {
-				fmt.Print(".")
-			}
+func isInside(corners []vector.Vector, point vector.Vector) bool {
+	count := 0
+	for i, corner := range corners {
+		nextCorner := corners[(i+1)%len(corners)]
+		if rayIntersectsSegment(point, corner, nextCorner) {
+			count++
 		}
-		fmt.Println()
 	}
+	return count%2 == 1
 }
+
+func rayIntersectsSegment(p, a, b vector.Vector) bool {
+	if ((a.Y > p.Y) != (b.Y > p.Y)) && (p.X > a.X) {
+		return true
+	}
+	return false
+}
+
+func vertical(a, b vector.Vector) bool {
+	return a.Y != b.Y && a.X == b.X
+}
+func horizontal(a, b vector.Vector) bool {
+	return a.Y == b.Y && a.X != b.X
+}
+
