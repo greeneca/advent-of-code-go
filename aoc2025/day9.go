@@ -64,7 +64,7 @@ func day9Part2(data []string) string {
 		return sizeA > sizeB
 	})
 	largest := pairs[0]
-	print(corners, largest)
+	//print(corners, largest)
 	return fmt.Sprintf("%d", sizeCache[[2]int{largest[0], largest[1]}])
 }
 
