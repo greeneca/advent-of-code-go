@@ -1,10 +1,12 @@
 package aoc2025
 
 import (
+	"fmt"
 	"math"
-	"slices"
 	"strconv"
 	"strings"
+
+	"gonum.org/v1/gonum/stat/combin"
 )
 
 type Machine struct {
@@ -121,35 +123,20 @@ func day10Part1(data []string) string {
 
 func findLightButtonPresses(machine Machine, all bool) [][]int {
 	buttonCombos := [][]int{}
-	machine.ButtonsPresed = []int{}
-	machines := []Machine{machine}
-	for true {
-		newMachines := []Machine{}
-		for _, m := range machines {
-			for i := range m.Buttons {
-				if slices.Contains(m.ButtonsPresed, i) { continue }
-				newMachine := copyMachine(m)
-				newMachine.PressButton(i)
-				if newMachine.CheckLights() {
-					slices.Sort(newMachine.ButtonsPresed)
-					if !slices.ContainsFunc(buttonCombos, func(a []int) bool {
-						return slices.Equal(a, newMachine.ButtonsPresed)
-					}) {
-						buttonCombos = append(buttonCombos, newMachine.ButtonsPresed)
-					}
-					if !all {
-						return buttonCombos
-					}
+	for i := range machine.Buttons {
+		buttons := combin.Combinations(len(machine.Buttons), i+1)
+		for _, buttonSet := range buttons {
+			newMachine := copyMachine(machine)
+			for _, buttonIndex := range buttonSet {
+				newMachine.PressButton(buttonIndex)
+			}
+			if newMachine.CheckLights() {
+				if !all {
+					return [][]int{buttonSet}
 				}
-				if len(newMachine.ButtonsPresed) < len(machine.Buttons) {
-					newMachines = append(newMachines, newMachine)
-				}
+				buttonCombos = append(buttonCombos, buttonSet)
 			}
 		}
-		if len(newMachines) == 0 {
-			break
-		}
-		machines = newMachines
 	}
 	return buttonCombos
 }
@@ -157,7 +144,7 @@ func findLightButtonPresses(machine Machine, all bool) [][]int {
 func day10Part2(data []string) string {
 	sum := 0
 	for _, machine := range data {
-		if machine == "" { continue }
+		if machine == ""  || machine[0:2] == "//" { continue }
 		parts := strings.Split(machine, " ")
 		joltages := []int{}
 		joltage := strings.SplitSeq(parts[len(parts)-1][1:len(parts[len(parts)-1])-1], ",")
@@ -183,13 +170,14 @@ func day10Part2(data []string) string {
 		}
 		cache := map[string]int{}
 		value := findJoltageButtonPresses(machine, &cache)
-		println("Value for machine:", value)
+		fmt.Println("Value for machine:", value)
 		sum += value
 	}
 	return strconv.Itoa(sum)
 }
 func findJoltageButtonPresses(machine Machine, cache *map[string]int) int {
 	key := cacheKey(machine)
+	println("Finding joltage presses for machine with key:", key)
 	check := machine.CheckJoltage()
 	if check == 1 {
 		return 0
