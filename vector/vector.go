@@ -18,6 +18,10 @@ func (v Vector) Subtract(other Vector) Vector {
 	return Vector{X: v.X - other.X, Y: v.Y - other.Y}
 }
 
+func (v *Vector) Rotate90() {
+	v.X, v.Y = -v.Y, v.X
+}
+
 func (v Vector) IsAt(x, y int) bool {
 	return v.X == x && v.Y == y
 }

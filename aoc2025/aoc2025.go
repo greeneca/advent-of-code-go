@@ -24,6 +24,7 @@ func GetProblems() map[string]func([]string)string {
 		"day10Part2": day10Part2,
 		"day11Part1": day11Part1,
 		"day11Part2": day11Part2,
-		// Add other problems here
+		"day12Part1": day12Part1,
+		"day12Part2": day12Part2,
 	}
 }
